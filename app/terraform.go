@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
-	"sls-tf/app/types/terraform"
 	"strings"
+
+	"github.com/dansc11/sls-tf/app/types/terraform"
 )
 
 func Plan(serverlessYmlPath string) {

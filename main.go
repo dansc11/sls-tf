@@ -1,7 +1,7 @@
 package main
 
 import (
-	"sls-tf/cmd"
+	"github.com/dansc11/sls-tf/cmd"
 )
 
 func main() {

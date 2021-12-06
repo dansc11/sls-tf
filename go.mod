@@ -1,4 +1,4 @@
-module sls-tf
+module github.com/dansc11/sls-tf
 
 go 1.16
 

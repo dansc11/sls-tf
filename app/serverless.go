@@ -2,7 +2,8 @@ package app
 
 import (
 	"io/ioutil"
-	"sls-tf/app/types/serverless"
+
+	"github.com/dansc11/sls-tf/app/types/serverless"
 
 	"gopkg.in/yaml.v3"
 )

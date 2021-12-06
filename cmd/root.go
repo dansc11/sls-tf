@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"sls-tf/app"
+
+	"github.com/dansc11/sls-tf/app"
 
 	"github.com/spf13/cobra"
 )

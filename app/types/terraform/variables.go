@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"strings"
 
-	"sls-tf/app/types/serverless"
+	"github.com/dansc11/sls-tf/app/types/serverless"
 )
 
 type TerraformVariables struct {
