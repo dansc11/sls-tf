@@ -1,0 +1,12 @@
+service: api
+
+provider:
+  region: eu-west-2
+  stage: dev
+
+functions:
+  - name: example
+    handler: handler.handle
+    runtime: python3.9
+    filename: api.zip
+    role: asdf
