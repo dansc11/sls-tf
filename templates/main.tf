@@ -10,7 +10,7 @@ provider "aws" {
 }
 
 module "service" {
-  source = "./.sls-tf/terraform-module"
+  source = "github.com/dansc11/sls-tf/terraform"
 }
 
 variable "service_name" {
