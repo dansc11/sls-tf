@@ -1,4 +1,4 @@
-resource "aws_lambda function" "function" {
+resource "aws_lambda_function" "function" {
   for_each = { for function in local.functions : function.name => function }
 
   name     = each.key
