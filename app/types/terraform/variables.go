@@ -26,6 +26,10 @@ func (v TerraformVariables) String() string {
 
 		variableValue := reflect.Indirect(variablesInstance).FieldByName(structPropertyName)
 
+		if variableValue.String() == "" {
+			continue
+		}
+
 		varsString = fmt.Sprintf("%s -var %s=%s", varsString, tfVariableName, variableValue)
 	}
 
