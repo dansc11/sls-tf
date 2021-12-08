@@ -14,8 +14,8 @@ type TerraformVariables struct {
 	ServiceName string `tf:"service_name"`
 }
 
-func (v TerraformVariables) String() string {
-	var varsString string
+func (v TerraformVariables) toTagMap() map[string]string {
+	var tagMap map[string]string = make(map[string]string)
 
 	variablesType := reflect.TypeOf(v)
 	variablesInstance := reflect.ValueOf(v)
@@ -26,11 +26,35 @@ func (v TerraformVariables) String() string {
 
 		variableValue := reflect.Indirect(variablesInstance).FieldByName(structPropertyName)
 
-		if variableValue.String() == "" {
+		tagMap[tfVariableName] = variableValue.String()
+	}
+
+	return tagMap
+}
+
+func (v TerraformVariables) toFilteredTagMap() map[string]string {
+	filtered := make(map[string]string)
+
+	tagMap := v.toTagMap()
+
+	for tag, value := range tagMap {
+		if value == "" {
 			continue
 		}
 
-		varsString = fmt.Sprintf("%s -var %s=%s", varsString, tfVariableName, variableValue)
+		filtered[tag] = value
+	}
+
+	return filtered
+}
+
+func (v TerraformVariables) String() string {
+	var varsString string
+
+	tagMap := v.toFilteredTagMap()
+
+	for tag, value := range tagMap {
+		varsString = fmt.Sprintf("%s -var %s=%s", varsString, tag, value)
 	}
 
 	return strings.TrimPrefix(varsString, " ")
