@@ -3,6 +3,7 @@ package terraform
 import (
 	"fmt"
 	"reflect"
+	"sort"
 	"strings"
 
 	"github.com/dansc11/sls-tf/app/types/serverless"
@@ -53,10 +54,18 @@ func (v TerraformVariables) String() string {
 
 	tagMap := v.toFilteredTagMap()
 
-	for tag, value := range tagMap {
-		varsString = fmt.Sprintf("%s -var %s=%s", varsString, tag, value)
+	// Sort the keys
+	keys := make([]string, 0)
+
+	for key, _ := range tagMap {
+		keys = append(keys, key)
 	}
 
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		varsString = fmt.Sprintf("%s -var %s=%s", varsString, key, tagMap[key])
+	}
 	return strings.TrimPrefix(varsString, " ")
 }
 
