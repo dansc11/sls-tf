@@ -20,7 +20,7 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&serverlessYmlPath, "sls-path", "serverless.yml", "location of the serverless.yml config file")
+	rootCmd.PersistentFlags().StringVarP(&serverlessYmlPath, "sls-path", "p", "serverless.yml", "location of the serverless.yml config file")
 }
 
 func Execute() {
