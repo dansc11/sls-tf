@@ -9,18 +9,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var serverlessYmlPath string
+var workDir string
 
 var rootCmd = &cobra.Command{
 	Use:   "sls-tf",
 	Short: "A serverless deployment framework using Terraform",
 	Run: func(cmd *cobra.Command, args []string) {
-		app.Plan(serverlessYmlPath)
+		app.Plan(workDir)
 	},
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&serverlessYmlPath, "sls-path", "p", "serverless.yml", "location of the serverless.yml config file")
+	rootCmd.PersistentFlags().StringVarP(&workDir, "sls-path", "p", "serverless.yml", "location of the serverless config files")
 }
 
 func Execute() {
