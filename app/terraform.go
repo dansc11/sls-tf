@@ -9,29 +9,29 @@ import (
 	"github.com/dansc11/sls-tf/app/types/terraform"
 )
 
-func Plan(serverlessYmlPath string) {
-	slsConfig, err := loadServerlessConfig(serverlessYmlPath)
+func Plan(workDir string) {
+	slsConfig, err := loadServerlessConfig(workDir)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	writeSlsTfYml(slsConfig)
+	writeSlsTfYml(workDir, slsConfig)
 
 	// Replace with a tfvars file instead of string args
 	tfVars := terraform.NewTerraformVariables(slsConfig)
 
-	if err := runTerraformInit(); err != nil {
+	if err := runTerraformInit(workDir); err != nil {
 		log.Fatal(err)
 	}
 
-	if err := runTerraformPlan(tfVars); err != nil {
+	if err := runTerraformPlan(workDir, tfVars); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func runTerraformPlan(variables terraform.TerraformVariables) error {
-	command := fmt.Sprintf("terraform plan %s", variables)
+func runTerraformPlan(workDir string, variables terraform.TerraformVariables) error {
+	command := fmt.Sprintf("terraform -chdir=%s plan %s", workDir, variables)
 
 	log.Printf("Preparing Terraform Plan command: %s", command)
 
@@ -50,8 +50,8 @@ func runTerraformPlan(variables terraform.TerraformVariables) error {
 	return nil
 }
 
-func runTerraformInit() error {
-	command := "terraform init"
+func runTerraformInit(workDir string) error {
+	command := fmt.Sprintf("terraform -chdir=%s init", workDir)
 
 	log.Printf("Preparing Terraform Init command: %s", command)
 
