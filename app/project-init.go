@@ -10,11 +10,11 @@ import (
 
 const templatesSource = "github.com/dansc11/sls-tf//templates"
 
-func InitProject() error {
+func InitProject(path string) error {
 	fmt.Println("Initialising sls-tf project...")
 
 	fmt.Println("Copying template files...")
-	if err := downloadTemplateFiles(); err != nil {
+	if err := downloadTemplateFiles(path); err != nil {
 		log.Fatal("DOWNLOAD ERROR: " + err.Error())
 		return err
 	}
@@ -22,12 +22,16 @@ func InitProject() error {
 	return nil
 }
 
-func downloadTemplateFiles() error {
-	pwd, err := os.Getwd()
+func downloadTemplateFiles(destPath string) error {
+	if destPath == "" {
+		pwd, err := os.Getwd()
 
-	if err != nil {
-		return err
+		if err != nil {
+			return err
+		}
+
+		destPath = pwd
 	}
 
-	return getter.GetAny(pwd, templatesSource)
+	return getter.GetAny(destPath, templatesSource)
 }
