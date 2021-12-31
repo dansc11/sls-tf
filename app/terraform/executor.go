@@ -21,7 +21,7 @@ func (o operation) String() string {
 		"init",
 		"plan",
 		"apply -auto-approve",
-		"destroy",
+		"destroy -auto-approve",
 	}[o]
 }
 
@@ -31,13 +31,13 @@ type terraformExecutor struct {
 	TerraformBinaryPath string
 }
 
-func NewExecutor(workDir string) (terraformExecutor, error) {
+func NewExecutor(workDir string) terraformExecutor {
 	var executor terraformExecutor
 
 	executor.WorkDir = workDir
 	executor.TerraformBinaryPath = "terraform"
 
-	return executor, nil
+	return executor
 }
 
 func (e *terraformExecutor) SetVariables(variables TerraformVariables) {
