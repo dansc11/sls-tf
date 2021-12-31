@@ -7,6 +7,24 @@ import (
 	"strings"
 )
 
+type operation int
+
+const (
+	Init operation = iota
+	Plan
+	Apply
+	Destroy
+)
+
+func (o operation) String() string {
+	return [...]string{
+		"init",
+		"plan",
+		"apply -auto-approve",
+		"destroy",
+	}[o]
+}
+
 type terraformExecutor struct {
 	WorkDir             string
 	variables           TerraformVariables
@@ -37,17 +55,19 @@ func (e *terraformExecutor) buildCommand(operation string) string {
 }
 
 func (e *terraformExecutor) Plan() error {
-	// TODO: Replace with enum
-	return e.runCommand("plan")
+	return e.runCommand(Plan.String())
 }
 
 func (e *terraformExecutor) Apply() error {
-	// TODO: pass args separately
-	return e.runCommand("apply -auto-approve")
+	return e.runCommand(Apply.String())
 }
 
 func (e *terraformExecutor) Init() error {
-	return e.runCommand("init")
+	return e.runCommand(Init.String())
+}
+
+func (e *terraformExecutor) Destroy() error {
+	return e.runCommand(Destroy.String())
 }
 
 func (e *terraformExecutor) runCommand(operation string) error {

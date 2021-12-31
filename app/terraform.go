@@ -61,3 +61,31 @@ func Deploy(workDir string) {
 		log.Fatal(err)
 	}
 }
+
+func Remove(workDir string) {
+	slsConfig, err := loadServerlessConfig(workDir)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	writeSlsTfYml(workDir, slsConfig)
+
+	// TODO: Replace with a tfvars file instead of string args
+	tfVars := terraform.NewTerraformVariables(slsConfig)
+
+	tfExecutor, err := terraform.NewExecutor(workDir)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tfExecutor.SetVariables(tfVars)
+
+	if err := tfExecutor.Init(); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := tfExecutor.Destroy(); err != nil {
+		log.Fatal(err)
+	}
+}
